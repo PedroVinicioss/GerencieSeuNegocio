@@ -1,4 +1,5 @@
 ﻿using GerencieSeuNegocio.Application.Services.AutoMapper;
+using GerencieSeuNegocio.Application.Services.Cryptography;
 using GerencieSeuNegocio.Application.UseCases.User.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,14 +25,14 @@ namespace GerencieSeuNegocio.Application
 
         private static void AddUseCases(IServiceCollection services)
         {
-            //services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+            services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         }
 
         private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration config)
         {
             var additionalKey = config.GetValue<string>("Settings:Password:AdditionalKey");
 
-            //services.AddScoped(option => new PasswordEncripter(additionalKey!));
+            services.AddScoped(option => new PasswordEncripter(additionalKey!));
         }
     }
 }
