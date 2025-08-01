@@ -2,6 +2,8 @@
 using GerencieSeuNegocio.Application.Services.Cryptography;
 using GerencieSeuNegocio.Communication.Requests.User.Register;
 using GerencieSeuNegocio.Communication.Responses.User.Register;
+using GerencieSeuNegocio.Domain.Repositories;
+using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Exceptions;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
 
@@ -9,22 +11,22 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
 {
     public class RegisterUserUseCase : IRegisterUserUseCase
     {
-        //private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
-        //private readonly IUserReadOnlyRepository _userReadOnlyRepository;
-        //IUnitOfWork _unitOfWork;
+        private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+        private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+        IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly PasswordEncripter _passwordEncripter;
 
         public RegisterUserUseCase(
-            //IUserWriteOnlyRepository userWriteOnlyRepository,
-            //IUserReadOnlyRepository userReadOnlyRepository,
-            //IUnitOfWork unitOfWork,
+            IUserWriteOnlyRepository userWriteOnlyRepository,
+            IUserReadOnlyRepository userReadOnlyRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper,
             PasswordEncripter passwordEncripter)
         {
-            //_userWriteOnlyRepository = userWriteOnlyRepository;
-            //_userReadOnlyRepository = userReadOnlyRepository;
-            //_unitOfWork = unitOfWork;
+            _userWriteOnlyRepository = userWriteOnlyRepository;
+            _userReadOnlyRepository = userReadOnlyRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _passwordEncripter = passwordEncripter;
         }
@@ -36,8 +38,8 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
             var user = _mapper.Map<Domain.Entities.User>(request);
             user.Password = _passwordEncripter.Encrypt(request.Password);
 
-            //await _userWriteOnlyRepository.Add(user);
-            //await _unitOfWork.Commit();
+            await _userWriteOnlyRepository.Add(user);
+            await _unitOfWork.Commit();
 
             return new ResponseRegisteredUserJson
             {
@@ -51,8 +53,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
 
             var result = validator.Validate(request);
 
-            //var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
-            var emailExist = false; // Simulating email existence check
+            var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
             if (emailExist)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesException.EMAIL_ALREADY_EXIST));
