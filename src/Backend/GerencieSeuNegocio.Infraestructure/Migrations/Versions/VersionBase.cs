@@ -9,6 +9,7 @@ namespace GerencieSeuNegocio.Infraestructure.Migrations.Versions
         {
             return Create.Table(table)
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+                .WithColumn("Uuid").AsGuid().NotNullable().Unique()
                 .WithColumn("CreatOn").AsDateTime().NotNullable()
                 .WithColumn("Active").AsBoolean().NotNullable();
         }
