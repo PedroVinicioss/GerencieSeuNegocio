@@ -2,6 +2,8 @@ using GerencieSeuNegocio.API.Filters;
 using GerencieSeuNegocio.API.Middleware;
 using GerencieSeuNegocio.Application;
 using GerencieSeuNegocio.Infraestructure;
+using GerencieSeuNegocio.Infraestructure.Migrations;
+using GerencieSeuNegocio.Infraestructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,4 +35,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+MigrateDatabase();
+
 app.Run();
+
+void MigrateDatabase()
+{
+    var connectionString = builder.Configuration.ConnectionString();
+
+    DatabaseMigrations.Migrate(connectionString);
+}

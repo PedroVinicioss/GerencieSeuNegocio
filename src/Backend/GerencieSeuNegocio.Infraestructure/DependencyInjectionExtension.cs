@@ -2,6 +2,7 @@
 using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Infraestructure.DataAccess;
 using GerencieSeuNegocio.Infraestructure.DataAccess.Repositories;
+using GerencieSeuNegocio.Infraestructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace GerencieSeuNegocio.Infraestructure
 
         private static void AddDbContext(IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config.GetConnectionString("Connection");
+            var connectionString = config.ConnectionString();
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 35));
 
             services.AddDbContext<GerencieSeuNegocioDbContext>(dbContextOptions =>
