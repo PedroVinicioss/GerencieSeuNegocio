@@ -1,11 +1,13 @@
 ﻿using Dapper;
+using FluentMigrator.Runner;
+using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
 
 namespace GerencieSeuNegocio.Infraestructure.Migrations
 {
     public static class DatabaseMigrations
     {
-        public static void Migrate(string connectionString)
+        public static void Migrate(string connectionString, IServiceProvider serviceProvider)
         {
             var connectionStringBuilder = new MySqlConnectionStringBuilder(connectionString);
             var databaseName = connectionStringBuilder.Database;
@@ -21,6 +23,16 @@ namespace GerencieSeuNegocio.Infraestructure.Migrations
 
             if (records.Any() == false)
                 dbConnection.Execute($"CREATE DATABASE {databaseName}");
+
+            MigrationDatabase(serviceProvider);
+        }
+
+        private static void MigrationDatabase(IServiceProvider serviceProvider)
+        {
+            var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
+
+            runner.ListMigrations();
+            runner.MigrateUp();
         }
     }
 }
