@@ -1,6 +1,6 @@
-﻿namespace GerencieSeuNegocio.Communication.Requests.User.Register
+﻿namespace GerencieSeuNegocio.Communication.Requests.User.Create
 {
-    public class RequestRegisterUserJson
+    public class RequestCreateUserJson
     {
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

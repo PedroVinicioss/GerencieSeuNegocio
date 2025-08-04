@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using GerencieSeuNegocio.Communication.Requests.User.Register;
+using GerencieSeuNegocio.Communication.Requests.User.Create;
 using GerencieSeuNegocio.Exceptions;
 
-namespace GerencieSeuNegocio.Application.UseCases.User.Register
+namespace GerencieSeuNegocio.Application.UseCases.User.Create
 {
-    public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
+    public class CreateUserValidator : AbstractValidator<RequestCreateUserJson>
     {
-        public RegisterUserValidator()
+        public CreateUserValidator()
         {
             RuleFor(user => user.Name).NotEmpty().WithMessage(ResourceMessagesException.NAME_EMPTY);
 
