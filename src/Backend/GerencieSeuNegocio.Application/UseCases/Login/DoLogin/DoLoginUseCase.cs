@@ -1,5 +1,5 @@
 ﻿using GerencieSeuNegocio.Application.Services.Cryptography;
-using GerencieSeuNegocio.Communication.Requests.User.Login;
+using GerencieSeuNegocio.Communication.Requests.Login;
 using GerencieSeuNegocio.Communication.Responses.User.Create;
 using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
@@ -17,7 +17,7 @@ namespace GerencieSeuNegocio.Application.UseCases.Login.DoLogin
             _passwordEncripter = passwordEncripter;
         }
 
-        public async Task<ResponseCreateUserJson> Execute(RequestLoginJson request)
+        public async Task<ResponseCreateUserJson> Execute(RequestDoLoginJson request)
         {
             var passwordEncrypted = _passwordEncripter.Encrypt(request.Password);
 

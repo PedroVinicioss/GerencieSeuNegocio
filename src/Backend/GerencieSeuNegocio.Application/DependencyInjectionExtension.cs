@@ -28,7 +28,7 @@ namespace GerencieSeuNegocio.Application
         private static void AddUseCases(IServiceCollection services)
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
-            services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            //services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
         }
 
