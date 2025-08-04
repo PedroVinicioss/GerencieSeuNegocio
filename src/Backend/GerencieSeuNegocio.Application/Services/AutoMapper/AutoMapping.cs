@@ -1,5 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GerencieSeuNegocio.Communication.Requests.User.Create;
+using GerencieSeuNegocio.Communication.Requests.User.Update;
 
 namespace GerencieSeuNegocio.Application.Services.AutoMapper
 {
@@ -13,6 +14,10 @@ namespace GerencieSeuNegocio.Application.Services.AutoMapper
         {
             CreateMap<RequestCreateUserJson, Domain.Entities.User>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
+
+            CreateMap<RequestUpdateUserJson, Domain.Entities.User>()
+                .ForAllMembers(opt =>
+                    opt.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

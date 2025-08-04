@@ -1,4 +1,4 @@
-﻿using GerencieSeuNegocio.Application.UseCases.User.Create;
+using GerencieSeuNegocio.Application.UseCases.User.Create;
 using GerencieSeuNegocio.Application.UseCases.User.Update;
 using GerencieSeuNegocio.Communication.Requests.User.Create;
 using GerencieSeuNegocio.Communication.Requests.User.Update;
@@ -20,6 +20,17 @@ namespace GerencieSeuNegocio.API.Controllers
             var result = await useCase.Execute(request);
 
             return Created(string.Empty, result);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromServices] IUpdateUserUseCase useCase,
+            [FromBody] RequestUpdateUserJson request)
+        {
+            await useCase.Execute(request);
+            return NoContent();
         }
     }
 }
