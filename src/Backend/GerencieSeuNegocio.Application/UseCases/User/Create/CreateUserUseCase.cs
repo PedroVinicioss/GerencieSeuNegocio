@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using GerencieSeuNegocio.Application.Services.Cryptography;
 using GerencieSeuNegocio.Communication.Requests.User.Create;
+using GerencieSeuNegocio.Communication.Responses.Token;
 using GerencieSeuNegocio.Communication.Responses.User.Create;
 using GerencieSeuNegocio.Domain.Repositories;
 using GerencieSeuNegocio.Domain.Repositories.User;
+using GerencieSeuNegocio.Domain.Security.Tokens;
 using GerencieSeuNegocio.Exceptions;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
 
@@ -13,22 +15,25 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
     {
         private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
-        IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly PasswordEncripter _passwordEncripter;
+        private readonly IAccessTokenGenerator _accessTokenGenerator;
 
         public CreateUserUseCase(
             IUserWriteOnlyRepository userWriteOnlyRepository,
             IUserReadOnlyRepository userReadOnlyRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            PasswordEncripter passwordEncripter)
+            PasswordEncripter passwordEncripter,
+            IAccessTokenGenerator accessTokenGenerator)
         {
             _userWriteOnlyRepository = userWriteOnlyRepository;
             _userReadOnlyRepository = userReadOnlyRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _passwordEncripter = passwordEncripter;
+            _accessTokenGenerator = accessTokenGenerator;
         }
 
         public async Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request)
@@ -43,7 +48,11 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
 
             return new ResponseCreateUserJson
             {
-                Name = request.Name
+                Name = user.Name,
+                Tokens = new ResponseTokensJson
+                {
+                    AccessToken = _accessTokenGenerator.Generate(user.Uuid, user.Role)
+                },
             };
         }
 
