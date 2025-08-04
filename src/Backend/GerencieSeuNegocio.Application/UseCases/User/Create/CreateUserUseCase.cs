@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using GerencieSeuNegocio.Application.Services.Cryptography;
-using GerencieSeuNegocio.Communication.Requests.User.Register;
-using GerencieSeuNegocio.Communication.Responses.User.Register;
+using GerencieSeuNegocio.Communication.Requests.User.Create;
+using GerencieSeuNegocio.Communication.Responses.User.Create;
 using GerencieSeuNegocio.Domain.Repositories;
 using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Exceptions;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
 
-namespace GerencieSeuNegocio.Application.UseCases.User.Register
+namespace GerencieSeuNegocio.Application.UseCases.User.Create
 {
-    public class RegisterUserUseCase : IRegisterUserUseCase
+    public class CreateUserUseCase : ICreateUserUseCase
     {
         private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
@@ -17,7 +17,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
         private readonly IMapper _mapper;
         private readonly PasswordEncripter _passwordEncripter;
 
-        public RegisterUserUseCase(
+        public CreateUserUseCase(
             IUserWriteOnlyRepository userWriteOnlyRepository,
             IUserReadOnlyRepository userReadOnlyRepository,
             IUnitOfWork unitOfWork,
@@ -31,7 +31,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
             _passwordEncripter = passwordEncripter;
         }
 
-        public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request)
+        public async Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request)
         {
             await Validade(request);
 
@@ -41,15 +41,15 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Register
             await _userWriteOnlyRepository.Add(user);
             await _unitOfWork.Commit();
 
-            return new ResponseRegisteredUserJson
+            return new ResponseCreateUserJson
             {
                 Name = request.Name
             };
         }
 
-        private async Task Validade(RequestRegisterUserJson request)
+        private async Task Validade(RequestCreateUserJson request)
         {
-            var validator = new RegisterUserValidator();
+            var validator = new CreateUserValidator();
 
             var result = validator.Validate(request);
 
