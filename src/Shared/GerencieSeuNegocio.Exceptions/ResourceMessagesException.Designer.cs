@@ -61,7 +61,7 @@ namespace GerencieSeuNegocio.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The e-mail already exist..
+        ///   Looks up a localized string similar to E-mail already exist..
         /// </summary>
         public static string EMAIL_ALREADY_EXIST {
             get {
@@ -84,6 +84,15 @@ namespace GerencieSeuNegocio.Exceptions {
         public static string EMAIL_INVALID {
             get {
                 return ResourceManager.GetString("EMAIL_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail address and/or password are invalid.
+        /// </summary>
+        public static string EMAIL_OR_PASSWORD_INVALID {
+            get {
+                return ResourceManager.GetString("EMAIL_OR_PASSWORD_INVALID", resourceCulture);
             }
         }
         

@@ -17,9 +17,9 @@ namespace GerencieSeuNegocio.API.Controllers
         [FromServices] ICreateUserUseCase useCase,
         [FromBody] RequestCreateUserJson request)
         {
-            var result = await useCase.Execute(request);
+            var response = await useCase.Execute(request);
 
-            return Created(string.Empty, result);
+            return Created(string.Empty, response);
         }
 
         [HttpPut]

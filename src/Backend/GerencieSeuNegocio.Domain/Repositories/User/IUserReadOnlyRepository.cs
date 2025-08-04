@@ -3,6 +3,6 @@
     public interface IUserReadOnlyRepository
     {
         public Task<bool> ExistActiveUserWithEmail(string email);
-        public Task<Entities.User?> GetByIdAsync(int id);
+        public Task<Entities.User?> GetByEmailAndPassword(string email, string password);
     }
 }
