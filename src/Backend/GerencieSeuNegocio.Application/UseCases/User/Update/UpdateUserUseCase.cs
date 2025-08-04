@@ -29,11 +29,11 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
         {
             await Validade(request);
 
-            var user = await _userReadOnlyRepository.GetByIdAsync(1); 
-            _mapper.Map(request, user);
+            //var user = await _userReadOnlyRepository.GetByIdAsync(1); 
+            //_mapper.Map(request, user);
 
-            _userUpdateOnlyRepository.Update(user);
-            await _unitOfWork.Commit();
+            //_userUpdateOnlyRepository.Update(user);
+            //await _unitOfWork.Commit();
         }
 
         private async Task Validade(RequestUpdateUserJson request)
