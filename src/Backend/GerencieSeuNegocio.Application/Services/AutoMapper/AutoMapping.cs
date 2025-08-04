@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GerencieSeuNegocio.Communication.Requests.User.Register;
+using GerencieSeuNegocio.Communication.Requests.User.Create;
 
 namespace GerencieSeuNegocio.Application.Services.AutoMapper
 {
@@ -11,7 +11,7 @@ namespace GerencieSeuNegocio.Application.Services.AutoMapper
         }
         private void RequestToDomain()
         {
-            CreateMap<RequestRegisterUserJson, Domain.Entities.User>()
+            CreateMap<RequestCreateUserJson, Domain.Entities.User>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
         }
     }

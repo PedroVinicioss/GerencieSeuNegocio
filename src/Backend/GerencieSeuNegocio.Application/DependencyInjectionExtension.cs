@@ -1,6 +1,6 @@
 ﻿using GerencieSeuNegocio.Application.Services.AutoMapper;
 using GerencieSeuNegocio.Application.Services.Cryptography;
-using GerencieSeuNegocio.Application.UseCases.User.Register;
+using GerencieSeuNegocio.Application.UseCases.User.Create;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +25,7 @@ namespace GerencieSeuNegocio.Application
 
         private static void AddUseCases(IServiceCollection services)
         {
-            services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+            services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
         }
 
         private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration config)
