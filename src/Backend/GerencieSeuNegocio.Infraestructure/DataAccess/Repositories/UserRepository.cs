@@ -20,7 +20,12 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
         #region Read Operations
 
         public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(u => u.Email.Equals(email) && u.Active);
-        public async Task<User?> GetByIdAsync(int id) => await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id && u.Active);
+        public async Task<User?> GetByEmailAndPassword(string email, string password)
+        {
+            return await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Active);
+        }
 
         #endregion
     }

@@ -1,9 +1,11 @@
 ﻿using FluentMigrator.Runner;
 using GerencieSeuNegocio.Domain.Repositories;
 using GerencieSeuNegocio.Domain.Repositories.User;
+using GerencieSeuNegocio.Domain.Security.Tokens;
 using GerencieSeuNegocio.Infraestructure.DataAccess;
 using GerencieSeuNegocio.Infraestructure.DataAccess.Repositories;
 using GerencieSeuNegocio.Infraestructure.Extensions;
+using GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ namespace GerencieSeuNegocio.Infraestructure
             AddDbContext(services, config);
             AddFluentMigrator(services, config);
             AddRepositories(services);
+            AddTokens(services, config);
         }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration config)
@@ -30,6 +33,7 @@ namespace GerencieSeuNegocio.Infraestructure
                 dbContextOptions.UseMySql(connectionString, serverVersion);
             });
         }
+
         private static void AddFluentMigrator(IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.ConnectionString();
@@ -49,6 +53,14 @@ namespace GerencieSeuNegocio.Infraestructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+        }
+
+        private static void AddTokens(IServiceCollection services, IConfiguration config)
+        {
+            var expirationTimeMinutes = config.GetValue<int>("Settings:Token:ExpirationTimeMinutes");
+            var signingKey = config.GetValue<string>("Settings:Jwt:SigningKey");
+
+            services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator((uint)expirationTimeMinutes, signingKey!));
         }
     }
 }
