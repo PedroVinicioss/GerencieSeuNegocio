@@ -51,7 +51,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
                 Name = user.Name,
                 Tokens = new ResponseTokensJson
                 {
-                    AccessToken = _accessTokenGenerator.Generate(user.Uuid, user.Role)
+                    AccessToken = _accessTokenGenerator.Generate(user.Uuid)
                 },
             };
         }
