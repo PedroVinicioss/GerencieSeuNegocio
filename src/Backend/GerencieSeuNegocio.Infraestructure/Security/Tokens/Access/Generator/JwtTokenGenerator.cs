@@ -1,5 +1,4 @@
-﻿using GerencieSeuNegocio.Domain.Enums;
-using GerencieSeuNegocio.Domain.Security.Tokens;
+﻿using GerencieSeuNegocio.Domain.Security.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,13 +16,12 @@ namespace GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator
             _signingKey = signingKey;
         }
 
-        public string Generate(Guid userIdentifier, RoleType role)
+        public string Generate(Guid userIdentifier)
         {
             var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Sid, userIdentifier.ToString()),
-                    new Claim(ClaimTypes.Role, role.ToString())
-                };
+            {
+                new Claim(ClaimTypes.Sid, userIdentifier.ToString())
+            };
 
             var now = DateTime.UtcNow;
 
