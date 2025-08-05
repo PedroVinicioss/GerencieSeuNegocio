@@ -20,6 +20,7 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
         #region Read Operations
 
         public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(u => u.Email.Equals(email) && u.Active);
+        public async Task<bool> ExistActiveUserWithUuid(Guid uuid) => await _dbContext.Users.AnyAsync(u => u.Uuid.Equals(uuid) && u.Active);
         public async Task<User?> GetByEmailAndPassword(string email, string password)
         {
             return await _dbContext.Users
