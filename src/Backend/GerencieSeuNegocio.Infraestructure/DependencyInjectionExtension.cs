@@ -6,6 +6,7 @@ using GerencieSeuNegocio.Infraestructure.DataAccess;
 using GerencieSeuNegocio.Infraestructure.DataAccess.Repositories;
 using GerencieSeuNegocio.Infraestructure.Extensions;
 using GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator;
+using GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Validator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,7 @@ namespace GerencieSeuNegocio.Infraestructure
             var signingKey = config.GetValue<string>("Settings:Jwt:SigningKey");
 
             services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator((uint)expirationTimeMinutes, signingKey!));
+            services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signingKey!));
         }
     }
 }
