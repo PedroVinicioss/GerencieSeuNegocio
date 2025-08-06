@@ -2,10 +2,13 @@
 using GerencieSeuNegocio.Domain.Repositories;
 using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Domain.Security.Tokens;
+using GerencieSeuNegocio.Domain.Services.LoggedUser;
 using GerencieSeuNegocio.Infraestructure.DataAccess;
 using GerencieSeuNegocio.Infraestructure.DataAccess.Repositories;
 using GerencieSeuNegocio.Infraestructure.Extensions;
 using GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator;
+using GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Validator;
+using GerencieSeuNegocio.Infraestructure.Services.LoggedUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +24,7 @@ namespace GerencieSeuNegocio.Infraestructure
             AddFluentMigrator(services, config);
             AddRepositories(services);
             AddTokens(services, config);
+            AddLoggedUser(services);
         }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration config)
@@ -57,10 +61,13 @@ namespace GerencieSeuNegocio.Infraestructure
 
         private static void AddTokens(IServiceCollection services, IConfiguration config)
         {
-            var expirationTimeMinutes = config.GetValue<int>("Settings:Token:ExpirationTimeMinutes");
+            var expirationTimeMinutes = config.GetValue<int>("Settings:Jwt:ExpirationTimeMinutes");
             var signingKey = config.GetValue<string>("Settings:Jwt:SigningKey");
 
             services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator((uint)expirationTimeMinutes, signingKey!));
+            services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signingKey!));
         }
+
+        private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
     }
 }
