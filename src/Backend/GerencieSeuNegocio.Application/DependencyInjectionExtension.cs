@@ -30,7 +30,7 @@ namespace GerencieSeuNegocio.Application
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
-            //services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
         }
 
