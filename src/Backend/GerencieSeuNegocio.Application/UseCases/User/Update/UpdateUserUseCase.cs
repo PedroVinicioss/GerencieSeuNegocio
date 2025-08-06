@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using GerencieSeuNegocio.Communication.Requests.User.Update;
+using GerencieSeuNegocio.Domain.Extensions;
 using GerencieSeuNegocio.Domain.Repositories;
 using GerencieSeuNegocio.Domain.Repositories.User;
+using GerencieSeuNegocio.Domain.Services.LoggedUser;
 using GerencieSeuNegocio.Exceptions;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
 
@@ -9,17 +11,20 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
 {
     public class UpdateUserUseCase : IUpdateUserUseCase
     {
+        private readonly ILoggedUser _loggedUser;
         private readonly IUserUpdateOnlyRepository _userUpdateOnlyRepository;
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
         IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public UpdateUserUseCase(
+            ILoggedUser loggedUser,
             IUserUpdateOnlyRepository userUpdateOnlyRepository,
             IUserReadOnlyRepository userReadOnlyRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
+            _loggedUser = loggedUser;
             _userUpdateOnlyRepository = userUpdateOnlyRepository;
             _userReadOnlyRepository = userReadOnlyRepository;
             _unitOfWork = unitOfWork;
@@ -27,21 +32,24 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
         }
         public async Task Execute(RequestUpdateUserJson request)
         {
-            await Validade(request);
+            var loggedUser = await _loggedUser.User();
 
-            //var user = await _userReadOnlyRepository.GetByIdAsync(1); 
-            //_mapper.Map(request, user);
+            await Validade(request, loggedUser.Email);
 
-            //_userUpdateOnlyRepository.Update(user);
-            //await _unitOfWork.Commit();
+            var user = await _userUpdateOnlyRepository.GetByUuid(loggedUser.Uuid);
+            
+            _mapper.Map(request, user);
+
+            _userUpdateOnlyRepository.Update(user);
+            await _unitOfWork.Commit();
         }
 
-        private async Task Validade(RequestUpdateUserJson request)
+        private async Task Validade(RequestUpdateUserJson request, string currentEmail)
         {
             var validator = new UpdateUserValidator();
             var result = validator.Validate(request);
 
-            await ValidateEmail(request, result);
+            await ValidateEmail(request, result, currentEmail);
 
             if (result.IsValid == false)
             {
@@ -51,12 +59,14 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
             }
         }
 
-        private async Task ValidateEmail(RequestUpdateUserJson request, FluentValidation.Results.ValidationResult result)
+        private async Task ValidateEmail(RequestUpdateUserJson request, FluentValidation.Results.ValidationResult result, string currentEmail)
         {
-            if (string.IsNullOrWhiteSpace(request.Email)) return;
-
-            if (await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email))
-                result.Errors.Add(new FluentValidation.Results.ValidationFailure(nameof(request.Email), ResourceMessagesException.EMAIL_ALREADY_EXIST));
+            if (currentEmail.Equals(request.Email).IsFalse())
+            {
+                var userExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
+                if (userExist)
+                    result.Errors.Add(new FluentValidation.Results.ValidationFailure(nameof(request.Email), ResourceMessagesException.EMAIL_ALREADY_EXIST));
+            }
         }
     }
 }
