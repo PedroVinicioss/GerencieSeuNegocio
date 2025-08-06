@@ -6,6 +6,8 @@ using GerencieSeuNegocio.Infraestructure.Migrations;
 using GerencieSeuNegocio.Infraestructure.Extensions;
 using GerencieSeuNegocio.API.Converters;
 using Microsoft.OpenApi.Models;
+using GerencieSeuNegocio.API.Token;
+using GerencieSeuNegocio.Domain.Security.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,8 +50,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfraestructure(builder.Configuration);
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

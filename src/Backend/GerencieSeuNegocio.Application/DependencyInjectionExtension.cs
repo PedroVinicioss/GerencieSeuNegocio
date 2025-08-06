@@ -2,6 +2,7 @@
 using GerencieSeuNegocio.Application.Services.Cryptography;
 using GerencieSeuNegocio.Application.UseCases.Login.DoLogin;
 using GerencieSeuNegocio.Application.UseCases.User.Create;
+using GerencieSeuNegocio.Application.UseCases.User.Profile;
 using GerencieSeuNegocio.Application.UseCases.User.Update;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ namespace GerencieSeuNegocio.Application
         private static void AddUseCases(IServiceCollection services)
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             //services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
         }

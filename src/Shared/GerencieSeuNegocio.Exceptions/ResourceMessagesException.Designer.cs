@@ -106,6 +106,15 @@ namespace GerencieSeuNegocio.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token not found..
+        /// </summary>
+        public static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password must be longer 6 characters..
         /// </summary>
         public static string PASSWORD_INVALID {
@@ -120,6 +129,15 @@ namespace GerencieSeuNegocio.Exceptions {
         public static string UNKNOWN_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not authorized to access this resource..
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }
