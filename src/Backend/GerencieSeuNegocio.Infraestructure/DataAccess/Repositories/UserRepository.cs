@@ -16,7 +16,6 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
 
         #endregion
 
-
         #region Read Operations
 
         public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(u => u.Email.Equals(email) && u.Active);
