@@ -57,6 +57,7 @@ namespace GerencieSeuNegocio.Infraestructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+            services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
         }
 
         private static void AddTokens(IServiceCollection services, IConfiguration config)
