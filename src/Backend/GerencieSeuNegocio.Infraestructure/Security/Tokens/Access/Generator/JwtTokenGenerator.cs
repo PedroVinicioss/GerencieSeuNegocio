@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator
 {
@@ -23,14 +22,10 @@ namespace GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator
                 new Claim(ClaimTypes.Sid, userIdentifier.ToString())
             };
 
-            var now = DateTime.UtcNow;
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = now.AddMinutes(_expirationTimeMinutes),
-                NotBefore = now.AddSeconds(-1),
-                IssuedAt = now,
+                Expires = DateTime.UtcNow.AddMinutes(_expirationTimeMinutes),
                 SigningCredentials = new SigningCredentials(SecurityKey(_signingKey), SecurityAlgorithms.HmacSha256Signature),
             };
 
