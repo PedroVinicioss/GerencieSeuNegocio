@@ -12,6 +12,7 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
         #region Write Operations
 
         public async Task Add(User user) => await _dbContext.Users.AddAsync(user);
+        public async Task<User> GetByUuid(Guid uuid) => await _dbContext.Users.FirstAsync(u => u.Uuid.Equals(uuid) && u.Active);
         public void Update(User user) => _dbContext.Users.Update(user);
 
         #endregion
