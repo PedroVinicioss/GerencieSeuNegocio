@@ -61,6 +61,24 @@ namespace GerencieSeuNegocio.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business type not be empty..
+        /// </summary>
+        public static string BUSINESS_TYPE_EMPTY {
+            get {
+                return ResourceManager.GetString("BUSINESS_TYPE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business type sending is invalid..
+        /// </summary>
+        public static string BUSINESS_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("BUSINESS_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-mail already exist..
         /// </summary>
         public static string EMAIL_ALREADY_EXIST {

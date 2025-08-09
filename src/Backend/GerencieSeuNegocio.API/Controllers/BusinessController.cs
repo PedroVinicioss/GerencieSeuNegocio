@@ -1,4 +1,5 @@
 ﻿using GerencieSeuNegocio.API.Attributes;
+using GerencieSeuNegocio.Application.UseCases.Business.Create;
 using GerencieSeuNegocio.Communication.Requests.Business.Create;
 using GerencieSeuNegocio.Communication.Responses;
 using GerencieSeuNegocio.Communication.Responses.Business.Create;
