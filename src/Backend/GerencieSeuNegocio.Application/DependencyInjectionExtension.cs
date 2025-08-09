@@ -1,5 +1,6 @@
 ﻿using GerencieSeuNegocio.Application.Services.AutoMapper;
 using GerencieSeuNegocio.Application.Services.Cryptography;
+using GerencieSeuNegocio.Application.UseCases.Business.Create;
 using GerencieSeuNegocio.Application.UseCases.Login.DoLogin;
 using GerencieSeuNegocio.Application.UseCases.User.Create;
 using GerencieSeuNegocio.Application.UseCases.User.Profile;
@@ -31,7 +32,10 @@ namespace GerencieSeuNegocio.Application
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
+
+            services.AddScoped<ICreateBusinessUseCase, CreateBusinessUseCase>();
         }
 
         private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration config)
