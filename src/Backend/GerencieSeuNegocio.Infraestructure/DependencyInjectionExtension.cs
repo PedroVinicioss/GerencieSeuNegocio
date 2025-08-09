@@ -1,5 +1,6 @@
 ﻿using FluentMigrator.Runner;
 using GerencieSeuNegocio.Domain.Repositories;
+using GerencieSeuNegocio.Domain.Repositories.Business;
 using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Domain.Security.Tokens;
 using GerencieSeuNegocio.Domain.Services.LoggedUser;
@@ -55,9 +56,12 @@ namespace GerencieSeuNegocio.Infraestructure
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+
+            services.AddScoped<IBusinessWriteOnlyRepository, BusinessRepository>();
         }
 
         private static void AddTokens(IServiceCollection services, IConfiguration config)
