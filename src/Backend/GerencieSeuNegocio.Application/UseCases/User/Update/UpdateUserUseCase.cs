@@ -14,7 +14,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
         private readonly ILoggedUser _loggedUser;
         private readonly IUserUpdateOnlyRepository _userUpdateOnlyRepository;
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
-        IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public UpdateUserUseCase(

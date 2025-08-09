@@ -8,6 +8,7 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess
         public GerencieSeuNegocioDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Business> Business { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
