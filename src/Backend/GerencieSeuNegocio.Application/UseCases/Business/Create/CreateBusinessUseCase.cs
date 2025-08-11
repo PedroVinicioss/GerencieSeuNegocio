@@ -10,20 +10,24 @@ namespace GerencieSeuNegocio.Application.UseCases.Business.Create
 {
     public class CreateBusinessUseCase : ICreateBusinessUseCase
     {
+        private readonly IBusinessWriteOnlyRepository _businessWriteOnlyRepository;
         private readonly ILoggedUser _loggedUser;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBusinessWriteOnlyRepository _businessWriteOnlyRepository;
-        public CreateBusinessUseCase(ILoggedUser loggedUser, IMapper mapper, IUnitOfWork unitOfWork, IBusinessWriteOnlyRepository businessWriteOnlyRepository)
+        public CreateBusinessUseCase(
+            IBusinessWriteOnlyRepository businessWriteOnlyRepository,
+            ILoggedUser loggedUser,
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
+            _businessWriteOnlyRepository = businessWriteOnlyRepository;
             _loggedUser = loggedUser;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _businessWriteOnlyRepository = businessWriteOnlyRepository;
         }
-        public async Task<ResponseCreateBusinessJson> Execute(RequestCreateBusinessJson request)
+        public async Task<ResponseCreateBusinessJson> Execute(RequestCreateBusinessJson request, CancellationToken cancellationToken = default)
         {
-            await Validate(request);
+            await Validate(request, cancellationToken);
 
             var loggedUser = await _loggedUser.User();
 
@@ -36,11 +40,11 @@ namespace GerencieSeuNegocio.Application.UseCases.Business.Create
             return _mapper.Map<ResponseCreateBusinessJson>(business);
         }
 
-        private async Task Validate(RequestCreateBusinessJson request)
+        private async Task Validate(RequestCreateBusinessJson request, CancellationToken cancellationToken = default)
         {
             var validator = new CreateBusinessValidator();
 
-            var result = validator.Validate(request);
+            var result = await validator.ValidateAsync(request, cancellationToken);
 
             if (result.IsValid == false)
             {

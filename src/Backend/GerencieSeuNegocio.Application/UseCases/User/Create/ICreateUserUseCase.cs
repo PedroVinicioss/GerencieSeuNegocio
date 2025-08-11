@@ -5,6 +5,6 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
 {
     public interface ICreateUserUseCase
     {
-        public Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request);
+        public Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request, CancellationToken cancellationToken = default);
     }
 }

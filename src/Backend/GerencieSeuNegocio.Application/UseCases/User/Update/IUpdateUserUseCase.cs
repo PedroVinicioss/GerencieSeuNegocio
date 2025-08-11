@@ -4,6 +4,6 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
 {
     public interface IUpdateUserUseCase
     {
-        public Task Execute(RequestUpdateUserJson request);
+        public Task Execute(RequestUpdateUserJson request, CancellationToken cancellationToken = default);
     }
 }

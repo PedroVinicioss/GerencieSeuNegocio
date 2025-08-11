@@ -19,22 +19,22 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
 
         public UpdateUserUseCase(
             ILoggedUser loggedUser,
-            IUserUpdateOnlyRepository userUpdateOnlyRepository,
-            IUserReadOnlyRepository userReadOnlyRepository,
+            IMapper mapper,
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IUserReadOnlyRepository userReadOnlyRepository,
+            IUserUpdateOnlyRepository userUpdateOnlyRepository)
         {
             _loggedUser = loggedUser;
-            _userUpdateOnlyRepository = userUpdateOnlyRepository;
-            _userReadOnlyRepository = userReadOnlyRepository;
-            _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _userReadOnlyRepository = userReadOnlyRepository;
+            _userUpdateOnlyRepository = userUpdateOnlyRepository;
         }
-        public async Task Execute(RequestUpdateUserJson request)
+        public async Task Execute(RequestUpdateUserJson request, CancellationToken cancellationToken = default)
         {
             var loggedUser = await _loggedUser.User();
 
-            await Validade(request, loggedUser.Email);
+            await Validade(request, loggedUser.Email, cancellationToken);
 
             var user = await _userUpdateOnlyRepository.GetByUuid(loggedUser.Uuid);
             
@@ -44,10 +44,10 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
             await _unitOfWork.Commit();
         }
 
-        private async Task Validade(RequestUpdateUserJson request, string currentEmail)
+        private async Task Validade(RequestUpdateUserJson request, string currentEmail, CancellationToken cancellationToken)
         {
             var validator = new UpdateUserValidator();
-            var result = validator.Validate(request);
+            var result = await validator.ValidateAsync(request, cancellationToken);
 
             await ValidateEmail(request, result, currentEmail);
 
