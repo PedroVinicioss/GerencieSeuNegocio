@@ -8,7 +8,7 @@ namespace GerencieSeuNegocio.Infraestructure.Migrations.Versions
     {
         public override void Up()
         {
-            CreateTable("Users")
+            CreateTable(USER_TABLE_NAME)
                 .WithColumn("Name").AsString(255).NotNullable()
                 .WithColumn("Email").AsString(255).NotNullable()
                 .WithColumn("Password").AsString(2000).NotNullable()
