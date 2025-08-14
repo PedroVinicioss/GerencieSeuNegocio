@@ -1,8 +1,10 @@
 using AutoMapper;
 using GerencieSeuNegocio.Communication.Requests.Business.Create;
+using GerencieSeuNegocio.Communication.Requests.Customer.Create;
 using GerencieSeuNegocio.Communication.Requests.User.Create;
 using GerencieSeuNegocio.Communication.Requests.User.Update;
 using GerencieSeuNegocio.Communication.Responses.Business.Create;
+using GerencieSeuNegocio.Communication.Responses.Customer.Profile;
 using GerencieSeuNegocio.Communication.Responses.User.Profile;
 using GerencieSeuNegocio.Domain.Entities;
 using GerencieSeuNegocio.Domain.Enums;
@@ -18,6 +20,8 @@ namespace GerencieSeuNegocio.Application.Services.AutoMapper
         }
         private void RequestToDomain()
         {
+            #region User
+
             CreateMap<RequestCreateUserJson, User>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
 
@@ -25,9 +29,21 @@ namespace GerencieSeuNegocio.Application.Services.AutoMapper
                 .ForAllMembers(opt =>
                     opt.Condition((src, dest, srcMember) => srcMember != null));
 
+            #endregion
+
+            #region Business
+
             CreateMap<RequestCreateBusinessJson, Business>()
                 .ForMember(d => d.Type, opt => opt.MapFrom(s =>
                     Enum.Parse<BusinessType>(s.Type, true)));
+
+            #endregion
+
+            #region Customer
+
+            CreateMap<RequestCreateCustomerJson, Customer>();
+
+            #endregion
         }
 
         private void DomainToResponse()
@@ -37,6 +53,8 @@ namespace GerencieSeuNegocio.Application.Services.AutoMapper
             CreateMap<Business, ResponseCreateBusinessJson>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src =>
                     Enum.GetName(typeof(BusinessType), src.Type)));
+
+            CreateMap<Customer, ResponseCreateCustomerJson>();
         }
     }
 }
