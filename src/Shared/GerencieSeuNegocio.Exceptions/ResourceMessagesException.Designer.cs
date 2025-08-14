@@ -61,6 +61,24 @@ namespace GerencieSeuNegocio.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business cannot be empty..
+        /// </summary>
+        public static string BUSINESS_EMPTY {
+            get {
+                return ResourceManager.GetString("BUSINESS_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business not found..
+        /// </summary>
+        public static string BUSINESS_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("BUSINESS_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business type not be empty..
         /// </summary>
         public static string BUSINESS_TYPE_EMPTY {
@@ -75,6 +93,33 @@ namespace GerencieSeuNegocio.Exceptions {
         public static string BUSINESS_TYPE_INVALID {
             get {
                 return ResourceManager.GetString("BUSINESS_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer with this document already exists..
+        /// </summary>
+        public static string CUSTOMER_DOCUMENT_ALREADY_EXIST {
+            get {
+                return ResourceManager.GetString("CUSTOMER_DOCUMENT_ALREADY_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document cannot be empty..
+        /// </summary>
+        public static string DOCUMENT_EMPTY {
+            get {
+                return ResourceManager.GetString("DOCUMENT_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document is invalid..
+        /// </summary>
+        public static string DOCUMENT_INVALID {
+            get {
+                return ResourceManager.GetString("DOCUMENT_INVALID", resourceCulture);
             }
         }
         
@@ -142,11 +187,38 @@ namespace GerencieSeuNegocio.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The phone cannot be empty..
+        /// </summary>
+        public static string PHONE_EMPTY {
+            get {
+                return ResourceManager.GetString("PHONE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The phone is invalid..
+        /// </summary>
+        public static string PHONE_INVALID {
+            get {
+                return ResourceManager.GetString("PHONE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown error..
         /// </summary>
         public static string UNKNOWN_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not authorized to access this business..
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_ACCESS_BUSINESS {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_ACCESS_BUSINESS", resourceCulture);
             }
         }
         

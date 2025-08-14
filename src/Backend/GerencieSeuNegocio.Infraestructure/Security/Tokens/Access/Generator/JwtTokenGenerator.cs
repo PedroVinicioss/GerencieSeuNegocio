@@ -19,16 +19,39 @@ namespace GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Generator
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Sid, userIdentifier.ToString())
+                new(ClaimTypes.Sid, userIdentifier.ToString())
             };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var tokenDescriptor = TokenDescriptor(claims);
+
+            return GenerateAndWriteToken(tokenDescriptor);
+        }
+
+        public string GenerateWithBusiness(Guid userIdentifier, Guid businessIdentifier)
+        {
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Sid, userIdentifier.ToString()),
+                new(ClaimTypes.System, businessIdentifier.ToString())
+            };
+
+            var tokenDescriptor = TokenDescriptor(claims);
+
+            return GenerateAndWriteToken(tokenDescriptor);
+        }
+
+        private SecurityTokenDescriptor TokenDescriptor(List<Claim> claims)
+        {
+            return new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(_expirationTimeMinutes),
                 SigningCredentials = new SigningCredentials(SecurityKey(_signingKey), SecurityAlgorithms.HmacSha256Signature),
             };
+        }
 
+        private static string GenerateAndWriteToken(SecurityTokenDescriptor tokenDescriptor)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);

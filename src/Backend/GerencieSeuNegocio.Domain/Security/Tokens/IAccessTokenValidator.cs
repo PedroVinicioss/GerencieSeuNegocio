@@ -3,5 +3,6 @@
     public interface IAccessTokenValidator
     {
         public Guid ValidateAndGetUserUuid(string token);
+        public Guid ValidateAndGetBusinessUuid(string token);
     }
 }

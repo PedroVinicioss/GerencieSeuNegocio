@@ -33,5 +33,22 @@ namespace GerencieSeuNegocio.Infraestructure.Services.LoggedUser
                 .AsNoTracking()
                 .FirstAsync(u => u.Active && u.Uuid == uuid);
         }
+
+        public async Task<Business> Business()
+        {
+            var token = _tokenProvider.Value();
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
+
+            var businessIdentifier = jwtSecurityToken.Claims.First(c => c.Type == ClaimTypes.System).Value;
+
+            var businessUuid = Guid.Parse(businessIdentifier);
+
+            return await _dbContext.Business
+                .AsNoTracking()
+                .FirstAsync(b => b.Active && b.Uuid == businessUuid);
+        }
     }
 }
