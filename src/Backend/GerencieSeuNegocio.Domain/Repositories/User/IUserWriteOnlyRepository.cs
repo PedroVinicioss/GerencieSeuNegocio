@@ -2,6 +2,6 @@
 {
     public interface IUserWriteOnlyRepository
     {
-        public Task Add(Entities.User user);
+        public Task Add(Entities.User user, CancellationToken cancellationToken = default);
     }
 }

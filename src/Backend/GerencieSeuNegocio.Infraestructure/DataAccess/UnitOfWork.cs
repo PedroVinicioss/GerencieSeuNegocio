@@ -8,6 +8,6 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess
 
         public UnitOfWork(GerencieSeuNegocioDbContext dbContext) => _dbContext = dbContext;
 
-        public async Task Commit() => await _dbContext.SaveChangesAsync();
+        public async Task Commit(CancellationToken cancellationToken) => await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

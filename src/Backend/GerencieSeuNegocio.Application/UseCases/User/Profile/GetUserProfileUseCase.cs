@@ -13,9 +13,9 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Profile
             _loggedUser = loggedUser;
             _mapper = mapper;
         }
-        public async Task<ResponseUserProfileJson> Execute()
+        public async Task<ResponseUserProfileJson> Execute(CancellationToken cancellationToken)
         {
-            var user = await _loggedUser.User();
+            var user = await _loggedUser.User(cancellationToken);
 
             return _mapper.Map<ResponseUserProfileJson>(user);
         }

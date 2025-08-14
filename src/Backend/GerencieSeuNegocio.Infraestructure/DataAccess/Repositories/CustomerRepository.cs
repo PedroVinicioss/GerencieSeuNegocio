@@ -14,7 +14,7 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
             await _dbContext.Customers.AddAsync(customer, cancellationToken);
         }
 
-        public async Task<Customer?> GetByDocument(string document, int businessId, CancellationToken cancellationToken = default)
+        public async Task<Customer?> GetByDocument(string document, int businessId, CancellationToken cancellationToken)
         {
             return await _dbContext.Customers
                 .AsNoTracking()
