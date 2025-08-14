@@ -2,6 +2,6 @@
 {
     public interface IBusinessWriteOnlyRepository
     {
-        Task Add(Domain.Entities.Business business);
+        Task Add(Domain.Entities.Business business, CancellationToken cancellationToken = default);
     }
 }
