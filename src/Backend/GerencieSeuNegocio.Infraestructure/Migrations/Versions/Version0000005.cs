@@ -2,7 +2,7 @@
 
 namespace GerencieSeuNegocio.Infraestructure.Migrations.Versions
 {
-    [Migration(DatabaseVersions.TABLE_CASH_REPORTS, "Create table to save the room's information.")]
+    [Migration(DatabaseVersions.TABLE_CASH_REPORTS, "Create table to save the cash report's information.")]
     public class Version0000005 : VersionBase
     {
         public override void Up()
