@@ -13,32 +13,32 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
 {
     public class CreateUserUseCase : ICreateUserUseCase
     {
-        private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
-        private readonly IUserReadOnlyRepository _userReadOnlyRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        private readonly PasswordEncripter _passwordEncripter;
         private readonly IAccessTokenGenerator _accessTokenGenerator;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+        private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+        private readonly PasswordEncripter _passwordEncripter;
 
         public CreateUserUseCase(
-            IUserWriteOnlyRepository userWriteOnlyRepository,
-            IUserReadOnlyRepository userReadOnlyRepository,
-            IUnitOfWork unitOfWork,
+            IAccessTokenGenerator accessTokenGenerator,
             IMapper mapper,
-            PasswordEncripter passwordEncripter,
-            IAccessTokenGenerator accessTokenGenerator)
+            IUnitOfWork unitOfWork,
+            IUserReadOnlyRepository userReadOnlyRepository,
+            IUserWriteOnlyRepository userWriteOnlyRepository,
+            PasswordEncripter passwordEncripter)
         {
-            _userWriteOnlyRepository = userWriteOnlyRepository;
-            _userReadOnlyRepository = userReadOnlyRepository;
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _passwordEncripter = passwordEncripter;
             _accessTokenGenerator = accessTokenGenerator;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _userReadOnlyRepository = userReadOnlyRepository;
+            _userWriteOnlyRepository = userWriteOnlyRepository;
+            _passwordEncripter = passwordEncripter;
         }
 
-        public async Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request)
+        public async Task<ResponseCreateUserJson> Execute(RequestCreateUserJson request, CancellationToken cancellationToken = default)
         {
-            await Validade(request);
+            await Validade(request, cancellationToken);
 
             var user = _mapper.Map<Domain.Entities.User>(request);
             user.Password = _passwordEncripter.Encrypt(request.Password);
@@ -56,11 +56,11 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
             };
         }
 
-        private async Task Validade(RequestCreateUserJson request)
+        private async Task Validade(RequestCreateUserJson request, CancellationToken cancellationToken)
         {
             var validator = new CreateUserValidator();
 
-            var result = validator.Validate(request);
+            var result = await validator.ValidateAsync(request, cancellationToken);
 
             var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
 

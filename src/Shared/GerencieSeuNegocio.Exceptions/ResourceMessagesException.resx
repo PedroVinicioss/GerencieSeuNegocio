@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUSINESS_EMPTY" xml:space="preserve">
+    <value>Business cannot be empty.</value>
+  </data>
+  <data name="BUSINESS_NOT_FOUND" xml:space="preserve">
+    <value>Business not found.</value>
+  </data>
   <data name="BUSINESS_TYPE_EMPTY" xml:space="preserve">
     <value>Business type not be empty.</value>
   </data>
   <data name="BUSINESS_TYPE_INVALID" xml:space="preserve">
     <value>Business type sending is invalid.</value>
+  </data>
+  <data name="CUSTOMER_DOCUMENT_ALREADY_EXIST" xml:space="preserve">
+    <value>Customer with this document already exists.</value>
+  </data>
+  <data name="DOCUMENT_EMPTY" xml:space="preserve">
+    <value>The document cannot be empty.</value>
+  </data>
+  <data name="DOCUMENT_INVALID" xml:space="preserve">
+    <value>The document is invalid.</value>
   </data>
   <data name="EMAIL_ALREADY_EXIST" xml:space="preserve">
     <value>E-mail already exist.</value>
@@ -144,8 +159,17 @@
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>The password must be longer 6 characters.</value>
   </data>
+  <data name="PHONE_EMPTY" xml:space="preserve">
+    <value>The phone cannot be empty.</value>
+  </data>
+  <data name="PHONE_INVALID" xml:space="preserve">
+    <value>The phone is invalid.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error.</value>
+  </data>
+  <data name="USER_WITHOUT_PERMISSION_ACCESS_BUSINESS" xml:space="preserve">
+    <value>User not authorized to access this business.</value>
   </data>
   <data name="USER_WITHOUT_PERMISSION_ACCESS_RESOURCE" xml:space="preserve">
     <value>User not authorized to access this resource.</value>

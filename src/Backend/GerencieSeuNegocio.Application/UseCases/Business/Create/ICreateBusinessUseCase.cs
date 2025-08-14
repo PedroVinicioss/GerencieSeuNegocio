@@ -5,6 +5,6 @@ namespace GerencieSeuNegocio.Application.UseCases.Business.Create
 {
     public interface ICreateBusinessUseCase
     {
-        public Task<ResponseCreateBusinessJson> Execute(RequestCreateBusinessJson request);
+        public Task<ResponseCreateBusinessJson> Execute(RequestCreateBusinessJson request, CancellationToken cancellationToken = default);
     }
 }

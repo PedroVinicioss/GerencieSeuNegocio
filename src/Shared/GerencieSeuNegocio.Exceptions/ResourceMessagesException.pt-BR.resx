@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUSINESS_EMPTY" xml:space="preserve">
+    <value>O Negócio não pode estar vazio.</value>
+  </data>
+  <data name="BUSINESS_NOT_FOUND" xml:space="preserve">
+    <value>Negócio não encontrado.</value>
+  </data>
   <data name="BUSINESS_TYPE_EMPTY" xml:space="preserve">
     <value>O tipo de Negócio não pode estar vazio.</value>
   </data>
   <data name="BUSINESS_TYPE_INVALID" xml:space="preserve">
     <value>O tipo de Negócio enviado é inválido.</value>
+  </data>
+  <data name="CUSTOMER_DOCUMENT_ALREADY_EXIST" xml:space="preserve">
+    <value>Já existe um cliente com este documento.</value>
+  </data>
+  <data name="DOCUMENT_EMPTY" xml:space="preserve">
+    <value>O documento não pode estar vazio.</value>
+  </data>
+  <data name="DOCUMENT_INVALID" xml:space="preserve">
+    <value>Documento inválido.</value>
   </data>
   <data name="EMAIL_ALREADY_EXIST" xml:space="preserve">
     <value>E-mail já registrado.</value>
@@ -130,7 +145,7 @@
     <value>O e-mail não pode estar vazio.</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>O e-mail é inválido.</value>
+    <value>E-mail é inválido.</value>
   </data>
   <data name="EMAIL_OR_PASSWORD_INVALID" xml:space="preserve">
     <value>E-mail e/ou senha inválidos.</value>
@@ -144,8 +159,17 @@
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>A senha deve ter no mínimo 6 caracteres.</value>
   </data>
+  <data name="PHONE_EMPTY" xml:space="preserve">
+    <value>O número de telefone não pode estar vazio.</value>
+  </data>
+  <data name="PHONE_INVALID" xml:space="preserve">
+    <value>Número de telefone inválido.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
+  </data>
+  <data name="USER_WITHOUT_PERMISSION_ACCESS_BUSINESS" xml:space="preserve">
+    <value>Usuário não autorizado a acessar este negócio.</value>
   </data>
   <data name="USER_WITHOUT_PERMISSION_ACCESS_RESOURCE" xml:space="preserve">
     <value>Usuário não autorizado a acessar este recurso.</value>

@@ -29,5 +29,31 @@ namespace GerencieSeuNegocio.Infraestructure.Security.Tokens.Access.Validator
 
             return Guid.Parse(userUuid);
         }
+
+        public Guid ValidateAndGetBusinessUuid(string token)
+        {
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = SecurityKey(_signingKey),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+
+            var claim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.System);
+
+            if (claim == null || string.IsNullOrWhiteSpace(claim.Value))
+                return Guid.Empty;
+
+            if (!Guid.TryParse(claim.Value, out var businessUuid))
+                return Guid.Empty; 
+
+            return businessUuid;
+        }
     }
 }

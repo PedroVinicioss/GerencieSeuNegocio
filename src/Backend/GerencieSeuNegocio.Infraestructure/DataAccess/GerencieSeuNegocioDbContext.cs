@@ -9,6 +9,7 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess
 
         public DbSet<User> Users { get; set; }
         public DbSet<Business> Business { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

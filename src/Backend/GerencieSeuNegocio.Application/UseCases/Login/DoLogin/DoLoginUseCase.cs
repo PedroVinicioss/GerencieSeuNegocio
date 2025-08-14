@@ -1,5 +1,5 @@
 ﻿using GerencieSeuNegocio.Application.Services.Cryptography;
-using GerencieSeuNegocio.Communication.Requests.Login;
+using GerencieSeuNegocio.Communication.Requests.Login.DoLogin;
 using GerencieSeuNegocio.Communication.Responses.Token;
 using GerencieSeuNegocio.Communication.Responses.User.Create;
 using GerencieSeuNegocio.Domain.Repositories.User;
