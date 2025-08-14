@@ -4,7 +4,7 @@ namespace GerencieSeuNegocio.Domain.Services.LoggedUser
 {
     public interface ILoggedUser
     {
-        public Task<User> User();
-        public Task<Business> Business();
+        public Task<User> User(CancellationToken cancellationToken = default);
+        public Task<Business> Business(CancellationToken cancellationToken = default);
     }
 }
