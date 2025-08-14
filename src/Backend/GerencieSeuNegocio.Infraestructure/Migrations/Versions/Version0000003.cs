@@ -12,7 +12,7 @@ namespace GerencieSeuNegocio.Infraestructure.Migrations.Versions
                 .WithColumn("Name").AsString(255).NotNullable()
                 .WithColumn("Email").AsString(255).NotNullable()
                 .WithColumn("Phone").AsString(50).NotNullable()
-                .WithColumn("Address").AsString(500).Nullable();
+                .WithColumn("Document").AsString(50).Nullable();
         }
     }
 }
