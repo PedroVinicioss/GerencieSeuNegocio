@@ -1,4 +1,4 @@
-﻿namespace GerencieSeuNegocio.Communication.Requests.Login
+﻿namespace GerencieSeuNegocio.Communication.Requests.Login.DoLogin
 {
     public class RequestDoLoginJson
     {
