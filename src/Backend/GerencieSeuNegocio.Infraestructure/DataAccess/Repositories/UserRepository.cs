@@ -27,6 +27,13 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Active);
         }
+        public async Task<bool> ExistActiveBusinessOfUser(Guid userUuid, Guid businessUuid)
+        {
+            return await _dbContext.Users
+                .AsNoTracking()
+                .Include(u => u.Businesses)
+                .AnyAsync(u => u.Uuid.Equals(userUuid) && u.Active && u.Businesses.Any(b => b.Uuid.Equals(businessUuid) && b.Active));
+        }
 
         #endregion
     }
