@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GerencieSeuNegocio.Communication.Requests.Login.DoLoginBusiness;
+﻿using GerencieSeuNegocio.Communication.Requests.Login.DoLoginBusiness;
 using GerencieSeuNegocio.Communication.Responses.Token;
 using GerencieSeuNegocio.Communication.Responses.User.Create;
 using GerencieSeuNegocio.Domain.Security.Tokens;
@@ -11,15 +10,12 @@ namespace GerencieSeuNegocio.Application.UseCases.Login.DoLoginBusiness
     public class DoLoginBusinessUseCase : IDoLoginBusinessUseCase
     {
         private readonly ILoggedUser _loggedUser;
-        private readonly IMapper _mapper;
         private readonly IAccessTokenGenerator _accessTokenGenerator;
         public DoLoginBusinessUseCase(
             ILoggedUser loggedUser,
-            IMapper mapper,
             IAccessTokenGenerator accessTokenGenerator)
         {
             _loggedUser = loggedUser;
-            _mapper = mapper;
             _accessTokenGenerator = accessTokenGenerator;
         }
 
@@ -27,7 +23,7 @@ namespace GerencieSeuNegocio.Application.UseCases.Login.DoLoginBusiness
         {
             await Validate(request, cancellationToken);
 
-            var loggedUser = await _loggedUser.User();
+            var loggedUser = await _loggedUser.User(cancellationToken);
 
             return new ResponseCreateUserJson
             {

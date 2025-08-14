@@ -6,6 +6,7 @@ using GerencieSeuNegocio.Domain.Repositories.User;
 using GerencieSeuNegocio.Domain.Services.LoggedUser;
 using GerencieSeuNegocio.Exceptions;
 using GerencieSeuNegocio.Exceptions.ExceptionsBase;
+using System.Threading;
 
 namespace GerencieSeuNegocio.Application.UseCases.User.Update
 {
@@ -30,18 +31,18 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
             _userReadOnlyRepository = userReadOnlyRepository;
             _userUpdateOnlyRepository = userUpdateOnlyRepository;
         }
-        public async Task Execute(RequestUpdateUserJson request, CancellationToken cancellationToken = default)
+        public async Task Execute(RequestUpdateUserJson request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _loggedUser.User();
+            var loggedUser = await _loggedUser.User(cancellationToken);
 
             await Validade(request, loggedUser.Email, cancellationToken);
 
-            var user = await _userUpdateOnlyRepository.GetByUuid(loggedUser.Uuid);
+            var user = await _userUpdateOnlyRepository.GetByUuid(loggedUser.Uuid, cancellationToken);
             
             _mapper.Map(request, user);
 
             _userUpdateOnlyRepository.Update(user);
-            await _unitOfWork.Commit();
+            await _unitOfWork.Commit(cancellationToken);
         }
 
         private async Task Validade(RequestUpdateUserJson request, string currentEmail, CancellationToken cancellationToken)
@@ -49,7 +50,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
             var validator = new UpdateUserValidator();
             var result = await validator.ValidateAsync(request, cancellationToken);
 
-            await ValidateEmail(request, result, currentEmail);
+            await ValidateEmail(request, result, currentEmail, cancellationToken);
 
             if (result.IsValid == false)
             {
@@ -59,11 +60,11 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Update
             }
         }
 
-        private async Task ValidateEmail(RequestUpdateUserJson request, FluentValidation.Results.ValidationResult result, string currentEmail)
+        private async Task ValidateEmail(RequestUpdateUserJson request, FluentValidation.Results.ValidationResult result, string currentEmail, CancellationToken cancellationToken)
         {
             if (currentEmail.Equals(request.Email).IsFalse())
             {
-                var userExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
+                var userExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email, cancellationToken);
                 if (userExist)
                     result.Errors.Add(new FluentValidation.Results.ValidationFailure(nameof(request.Email), ResourceMessagesException.EMAIL_ALREADY_EXIST));
             }

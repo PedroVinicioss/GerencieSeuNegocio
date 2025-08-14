@@ -17,7 +17,7 @@ namespace GerencieSeuNegocio.Infraestructure.Services.LoggedUser
             _dbContext = dbContext;
             _tokenProvider = tokenProvider;
         }
-        public async Task<User> User()
+        public async Task<User> User(CancellationToken cancellationToken)
         {
             var token = _tokenProvider.Value();
 
@@ -31,10 +31,10 @@ namespace GerencieSeuNegocio.Infraestructure.Services.LoggedUser
 
             return await _dbContext.Users
                 .AsNoTracking()
-                .FirstAsync(u => u.Active && u.Uuid == uuid);
+                .FirstAsync(u => u.Active && u.Uuid == uuid, cancellationToken);
         }
 
-        public async Task<Business> Business()
+        public async Task<Business> Business(CancellationToken cancellationToken)
         {
             var token = _tokenProvider.Value();
 
@@ -48,7 +48,7 @@ namespace GerencieSeuNegocio.Infraestructure.Services.LoggedUser
 
             return await _dbContext.Business
                 .AsNoTracking()
-                .FirstAsync(b => b.Active && b.Uuid == businessUuid);
+                .FirstAsync(b => b.Active && b.Uuid == businessUuid, cancellationToken);
         }
     }
 }

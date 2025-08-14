@@ -14,16 +14,16 @@ namespace GerencieSeuNegocio.Infraestructure.DataAccess.Repositories
 
         #region Write Operations
 
-        public async Task Add(Domain.Entities.Business business)
+        public async Task Add(Domain.Entities.Business business, CancellationToken cancellationToken)
         {
-            await _dbContext.Business.AddAsync(business);
+            await _dbContext.Business.AddAsync(business, cancellationToken);
         }
 
         #endregion
 
         #region Read Operations
 
-        public async Task<bool> ExistActiveBusinessUuid(Guid uuid, CancellationToken cancellationToken = default) => await _dbContext.Business.AnyAsync(u => u.Uuid.Equals(uuid) && u.Active);
+        public async Task<bool> ExistActiveBusinessUuid(Guid uuid, CancellationToken cancellationToken) => await _dbContext.Business.AnyAsync(u => u.Uuid.Equals(uuid) && u.Active, cancellationToken);
 
         #endregion
     }

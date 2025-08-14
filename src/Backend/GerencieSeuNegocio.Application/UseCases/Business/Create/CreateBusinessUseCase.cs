@@ -29,13 +29,13 @@ namespace GerencieSeuNegocio.Application.UseCases.Business.Create
         {
             await Validate(request, cancellationToken);
 
-            var loggedUser = await _loggedUser.User();
+            var loggedUser = await _loggedUser.User(cancellationToken);
 
             var business = _mapper.Map<Domain.Entities.Business>(request);
             business.UserId = loggedUser.Id;
 
-            await _businessWriteOnlyRepository.Add(business);
-            await _unitOfWork.Commit();
+            await _businessWriteOnlyRepository.Add(business, cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
 
             return _mapper.Map<ResponseCreateBusinessJson>(business);
         }

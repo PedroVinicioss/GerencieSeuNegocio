@@ -43,8 +43,8 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
             var user = _mapper.Map<Domain.Entities.User>(request);
             user.Password = _passwordEncripter.Encrypt(request.Password);
 
-            await _userWriteOnlyRepository.Add(user);
-            await _unitOfWork.Commit();
+            await _userWriteOnlyRepository.Add(user, cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
 
             return new ResponseCreateUserJson
             {
@@ -62,7 +62,7 @@ namespace GerencieSeuNegocio.Application.UseCases.User.Create
 
             var result = await validator.ValidateAsync(request, cancellationToken);
 
-            var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
+            var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email, cancellationToken);
 
             if (emailExist)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesException.EMAIL_ALREADY_EXIST));
