@@ -34,14 +34,14 @@ namespace GerencieSeuNegocio.Application.UseCases.Customer.Create
         {
             await Validate(request, cancellationToken);
 
-            var business = await _loggedUser.Business();
+            var business = await _loggedUser.Business(cancellationToken);
 
             var customer = _mapper.Map<Domain.Entities.Customer>(request);
             customer.BusinessId = business.Id;
 
             await _customerWriteOnlyRepository.Add(customer, cancellationToken);
 
-            await _unitOfWork.Commit();
+            await _unitOfWork.Commit(cancellationToken);
 
             return _mapper.Map<ResponseCreateCustomerJson>(customer);
         }
@@ -52,9 +52,10 @@ namespace GerencieSeuNegocio.Application.UseCases.Customer.Create
 
             var result = await validator.ValidateAsync(request, cancellationToken);
 
-            var business = await _loggedUser.Business();
+            var business = await _loggedUser.Business(cancellationToken);
 
             var existingCustomerWithDocument = await _customerReadOnlyRepository.GetByDocument(request.Document, business.Id, cancellationToken);
+
             if (existingCustomerWithDocument != null)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(nameof(request.Document), ResourceMessagesException.CUSTOMER_DOCUMENT_ALREADY_EXIST));
 
