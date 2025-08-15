@@ -1,6 +1,6 @@
 ﻿namespace GerencieSeuNegocio.Domain.Entities
 {
-    public class StayCustomer
+    public class StayCustomer : EntityBase
     {
         public int StayId { get; set; }
         public int CustomerId { get; set; }
